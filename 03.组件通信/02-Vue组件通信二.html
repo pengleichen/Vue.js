@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>02-Vue组件通信二</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    /*
+    $attrs 和 $listeners
+    第一种方式处理父子组件之间的数据传输有一个问题：
+      如果父组件A下面有子组件B，组件B下面有组件C，这时如果组件A向传递数据给组件C该怎么办？
+      如果采用第一种方法，我们必须让组件A通过prop传递消息给组件B，组件B再通过prop传递消息给组件C；
+      要是组件A和组件C之间有更多的组件，那采用这种方式就很复杂了。
+    Vue2.4 开始提供了 $attrs 和 $listeners来解决这个问题，能够让组件A直接传递消息给组件C
+     */
+    Vue.component('C', {
+      template: `
+        <div style="background-color: rosybrown">
+          <p>我是C组件</p>
+          <button @click="cClickHandler">{{$attrs.message}}</button>
+        </div>
+      `,
+      methods: {
+        cClickHandler() {
+          console.log('向App组件传递消息 -->-->-->')
+          this.$emit('getMessageFromC', '我是来自于C组件的消息！！')
+        }
+      }
+    })
+    Vue.component('B', {
+      template: `
+        <div style="background-color: chartreuse">
+          <p>我是B组件{{$attrs.message}}</p>
+          <C v-bind="$attrs" v-on="$listeners" />
+        </div>
+      `
+    })
+    Vue.component('A', {
+      template: `
+        <div style="background-color: hotpink">
+          <p>我是A组件{{$attrs.message}}</p>
+          <B v-bind="$attrs" v-on="$listeners" />
+        </div>
+      `
+    })
+    let App = {
+      data() {
+        return {
+          message: '我是App组件的内容',
+          cHello: 'Hello C component'
+        }
+      },
+      template: `
+        <div style="background-color: yellow">
+          <p>我是App组件{{cHello}}</p>
+          <A :message="cHello" @getMessageFromC="getCData" />
+        </div>
+      `,
+      methods: {
+        getCData(value) {
+          console.log(value)
+        }
+      }
+    }
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
+</body>
+</html>

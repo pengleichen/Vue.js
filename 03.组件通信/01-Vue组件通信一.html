@@ -5,6 +5,72 @@
   <title>01-Vue组件通信一</title>
 </head>
 <body>
+  <div id="app">
+    <span v-text="message"></span>
+  </div>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script>
 
+    // props 和 $emit
+    // 父组件向子组件传递数据是通过prop传递的，子组件传递数据给父组件是通过$emit触发事件来做到的
+
+    /*
+    在下面的例子中，有父组件App和子组件Child.
+      1. 父组件传递了 message 数据给子组件，并且通过v-on绑定了一个getChildData事件来监听子组件的触发事件；
+      2. 子组件通过 props 得到相关的 message 数据，最后通过this.$emit触发了getChildData事件。
+     */
+    Vue.component('Child', {
+      data() {
+        return {
+
+        }
+      },
+      props: ['message'],
+      template: `
+        <div style="background-color: goldenrod">
+          <h1>Vue组件通信一:</h1>
+          <h2>我是子组件Child</h2>
+          <h3>来自于父组件的Message: <i>{{message}}</i></h3>
+          <input type="text" :value="message" @input="changeMessage">
+        </div>
+      `,
+      methods: {
+        changeMessage(e) {
+          const value = e.target.value;
+          console.log('child: ',value)
+          this.$emit('getChildData', value)
+        }
+      }
+    })
+    let App = {
+      data() {
+        return {
+          message: 'props & $emit'
+        }
+      },
+      template: `
+        <div>
+          <div style="background-color: #0086B3">
+            <h2>我是父组件App</h2>
+            <h3>来自于子组件通过$emit，改变后的Message: <i>{{message}}</i></h3>
+          </div>
+          <Child :message="message" @getChildData="messageChanged" />
+        </div>
+      `,
+      methods: {
+        messageChanged(value) {
+          console.log('app: ',value)
+          this.message = value;
+        }
+      }
+    }
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
 </body>
 </html>
