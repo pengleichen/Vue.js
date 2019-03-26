@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>12-watch</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="msg">
+    <h3>{{ msg }}</h3>
+
+    <input type="text" v-model="students[0].name">
+    <h4>{{ students[0].name }}</h4>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 数据监视 watch监视的是单个属性
+    // 基本数据类型   简单监视
+    // 复杂数据类型   深度监视
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '',
+          students: [
+            {name: 'Jack'},
+            {name: 'Tom'},
+          ],
+        }
+      },
+      watch: {
+        msg(newVal, oldVal) {
+          console.log(newVal, oldVal)
+          if (newVal === 'tusir') {
+            console.log('tusir come on')
+          }
+        },
+        // 监听复杂数据类型 Object Array 深度监视
+        students: {
+          deep: true,
+          handler(newV) {
+            console.log(newV)
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

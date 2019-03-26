@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>02-Vue指令系统</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    .box.active {
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 创建实例化对象
+    // 双大括号插值 {{}}
+    // v-text innerText
+    // v-html innerHTML
+    // v-if 数据属性对应的值 如果为假，则不在页面中渲染反之亦然, appendChild(), removeChild()
+    // v-show 控制dom元素的显示隐藏display: none/block;
+    // 控制类名对元素显示隐藏 display: none/block;
+    // v-bind 绑定标签上的属性(内置的属性和自定义的属性)，简写： :
+    // v-on 原生事件名 = '函数名'，简写： @
+    // v-for ="(item, index) in menus"
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: '指令系统',
+          msg2: '<h2>指令系统2</h2>',
+          isShow: true,
+          isActive: false,
+          menus: [
+            { id: 1, name: '宫保鸡丁', price: 70, },
+            { id: 2, name: '炸黄花鱼', price: 260, },
+            { id: 3, name: '清蒸大闸蟹', price: 100, },
+          ],
+          person: {
+            name: 'Tom', age: 20, salary: 40000,
+          },
+        }
+      },
+      template: `
+        <div class="app">
+          <h2>{{msg}}</h2>
+          <p v-text="msg"></p>
+          <div v-text="1+1"></div>
+          <div v-html="msg2"></div>
+          
+          <div v-if="isShow">v-if</div>
+          <div v-if="Math.random() > .5">
+            v-if
+          </div>
+          <div v-else>
+            v-else
+          </div>
+          <div v-show="isShow">v-show</div>
+
+          <div class="box" v-on:click="clickHandler" v-bind:class="{active: isActive}"></div>
+
+          <ul>
+            <ul v-for="(item,index) in menus">
+              <h5 v-text="item.id"></h5>
+              <h3>{{item.name}}</h3>
+              <em>{{item.price}}</em>
+            </li>
+          </ul>
+
+          <ul>
+            <li v-for="(value, key) in person">
+              {{key}} - {{value}}
+            </li>
+          </ul>
+        </div>
+      `,
+      methods: {
+        clickHandler() {
+          console.log(this)
+          this.isActive = !this.isActive;
+        }
+      },
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>03-Vue的双向数据绑定</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="msg">
+    <input type="text" :value="msg" @input="changeMsg">
+    {{msg}}
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // v-model 双向数据绑定的体现 只会体现在UI控件中，只能应用在有value属性的元素 语法糖：它是 v-bind:value和v-on:input的体现
+    
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: 'Tom'
+        }
+      },
+      methods: {
+        changeMsg(event) {
+          this.msg = event.target.value
+        }
+      },
+    })
+  </script>
+</body>
+</html>

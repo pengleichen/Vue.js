@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>01-Vue的基本使用</title>
+</head>
+<body>
+  <div id="app">
+    <!--模板语法{{}}双大括号插值 react: {}-->
+    <h2>{{msg}}</h2>
+    <h3>{{1+1}}</h3>
+    <h4>{{isTrue}}</h4>
+    <h5>{{str.split('').reverse().join('')}}</h5>
+    <h6>{{1 > 4 ? '真的': '假的'}}</h6>
+
+    <h1>{{ {name: '张三'} }}</h1>
+  </div>
+  <!--1. 引包-->
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    //2. 创建实例化对象
+    // 数据发送改变时，视图发生改变，简言之，数据驱动视图
+    // 如果template中定义了内容，那么优先加载template，如果没有定义内容那么加载的是#app的模板内容
+    let vm = new Vue({
+      el: '#app',
+      data: { //既可以是一个对象也可以是一个函数
+        msg: '黄瓜',
+        isTrue: 1 === 1,
+        str: 'hellovue',
+      },
+      //template: `<div>{{msg}}</div>`
+    })
+    console.log(vm)
+    console.log(vm.$data)
+  </script>
+</body>
+</html>

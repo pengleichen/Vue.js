@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>08-通过事件向父组件发送消息</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // ------- 子组件 -> 父组件 ----------
+      // 1. 在父组件绑定自定义事件
+      // 2. 在子组件中触发原生的事件，在函数中使用$emit去触发自定义事件执行
+      Vue.component('Child', {
+        template: `
+          <div>
+            <p>我是一个Child组件</p>
+            <input v-model="childData" @input="valueChange" >
+          </div>
+        `,
+        props: ['childData'],
+        methods: {
+          valueChange() {
+            this.$emit('childEvent', this.childData)
+          }
+        }
+      })
+      ;Vue.component('Parent', {
+        data() {
+          return {
+            msg: '我是Parent组件消息'
+          }
+        },
+        template: `
+          <div>
+            <p>我是一个Parent组件 {{msg}}</p>
+            <Child :childData="msg" @childEvent="childEvent" />
+          </div>
+        `,
+        methods: {
+          childEvent(value) {
+            console.log(value)
+          }
+        },
+      })
+      ;let App = {
+        template: `
+          <div>
+            <Parent />
+          </div>
+        `
+      }
+      new Vue({
+        el: '#app',
+        components: {
+          App,
+        },
+        template: `<App />`,
+      })
+    </script>
+</body>
+</html>

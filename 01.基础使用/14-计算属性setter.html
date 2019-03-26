@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>14-计算属性setter</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    img {
+      margin: 10px;
+      width: 150px;
+    }
+    ul {
+      list-style: none;
+    }
+    ul > li {
+      margin: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    ul > li:hover {
+      background-color: rosybrown;
+    }
+    
+    ul > li.active {
+      background-color: aquamarine;
+    }
+      
+  </style>
+</head>
+<body>
+  <div id="app">
+    <img :src="currentAvatar">
+    <ul>
+      <li :class="{active: currentIndex === index}" v-for="(user, index) in users" @click="changeUser(index)">
+        <h3>{{user.id}} - 姓名：{{user.login}}</h3>
+        <p>地址: <a :href="user.html_url" target="_blank">{{user.html_url}}</a></p>
+      </li>
+    </ul>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    const users = [
+      {
+        "login": "mojombo",
+        "id": 1,
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1?v=4",
+        "html_url": "https://github.com/mojombo",
+      }, {
+          "login": "defunkt",
+          "id": 2,
+          "avatar_url": "https://avatars0.githubusercontent.com/u/2?v=4",
+          "html_url": "https://github.com/defunkt",
+      }, {
+        "login": "pjhyett",
+        "id": 3,
+        "avatar_url": "https://avatars0.githubusercontent.com/u/3?v=4",
+        "html_url": "https://github.com/pjhyett",
+      }, {
+        "login": "wycats",
+        "id": 4,
+        "avatar_url": "https://avatars0.githubusercontent.com/u/4?v=4",
+        "html_url": "https://github.com/wycats",
+      }
+    ]
+    ;new Vue({
+      el: '#app',
+      data() {
+        return {
+          users,
+          currentIndex: 0,
+        }
+      },
+      computed: {
+        // 计算属性默认只有 getter
+        // setter也可以
+        currentAvatar: {
+          get() {
+            return this.users[this.currentIndex].avatar_url
+          },
+          set(val) {
+            this.currentIndex = val
+          }
+        }
+      },
+      methods: {
+        changeUser(index) {
+          this.currentAvatar = index
+        }
+      }
+    })
+  </script>
+</body>
+</html>

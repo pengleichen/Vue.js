@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>05-Vue局部组件的使用</title>
+</head>
+<body>
+  <div id="app">
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+
+    let Footer = {
+      template: `
+        <div>我是底部组件</div>
+      `
+    }
+
+    let Content = {
+      template: `
+        <div>我是内容组件</div>
+      `
+    }
+
+    let Aside = {
+      template: `
+        <div>我是侧边栏组件</div>
+      `
+    }
+
+    let Header = {
+      template: `
+        <div>我是头部组件</div>
+      `
+    }
+
+    let App = {
+      components: {
+        Header,
+        Aside,
+        Content,
+        Footer,
+      },
+      template: `
+        <div>
+            <Header />
+            <div>
+              <Aside />
+              <Content />
+            </div>
+            <Footer />
+        </div>
+      `
+    }
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `,
+    })
+  </script>
+</body>
+</html>

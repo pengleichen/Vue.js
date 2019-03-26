@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>09-Vue全局组件的使用</title>
+
+  <style>
+    .btn {
+      display: inline-block;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #dcdfe6;
+      color: #606266;
+      -webkit-appearance: none;
+      text-align: center;
+      box-sizing: border-box;
+      outline: none;
+      margin: 0;
+      transition: .1s;
+      font-weight: 500;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      padding: 5px 8px;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+    .btn-primary {
+      color: #fff;
+      background-color: #409eff;
+      border-color: #409eff;
+    }
+
+    .btn-success {
+      color: #fff;
+      background-color: #67c23a;
+      border-color: #67c23a;
+    }
+  </style>
+</head>
+<body>
+  
+    <div id="app"></div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // 全局组件
+      // 第一个参数是组件的名字， 第二个参数是options
+      Vue.component('Vbtn' ,{
+        template: `
+          <!-- 插槽 内置组件 slot 作为承载分发内容的出口 -->
+          <button class="btn" :class="btnType">
+            <slot>按钮</slot>
+          </button>
+        `,
+        props: ['type'],
+        computed: {
+          btnType: {
+            get() {
+              return this.type ? 'btn-' + this.type : ''
+            }
+          }
+        }
+      })
+  
+      let Content = {
+        template: `
+          <div>我是内容组件
+            <Vbtn type="success">提交</Vbtn>
+            <Vbtn>取消</Vbtn>
+            <Vbtn />
+          </div>
+        `
+      }
+  
+      let Aside = {
+        template: `
+          <div>
+            我是侧边栏组件
+            <Vbtn type="primary">切换</Vbtn>
+          </div>
+        `
+      }
+  
+      let Header = {
+        template: `
+          <div>我是头部组件</div>
+        `
+      }
+  
+      let App = {
+        components: {
+          Header,
+          Aside,
+          Content,
+        },
+        template: `
+          <div>
+              <Header />
+              <div>
+                <Aside />
+                <Content />
+              </div>
+          </div>
+        `
+      }
+      new Vue({
+        el: '#app',
+        components: {
+          App
+        },
+        template: `
+          <App />
+        `,
+      })
+    </script>
+</body>
+</html>
