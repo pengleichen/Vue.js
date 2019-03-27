@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>01-获取DOM元素</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    Vue.component('SubCom', {
+      template: `<div class="sub-com"></div>`
+    })
+    const App = {
+      template: `
+        <div>
+          <button ref="btn">我是按钮</button>
+          <button ref="btn2">我是按钮2</button>
+          <SubCom ref="subCom" />
+        </div>
+      `,
+      created() {
+        console.log('created: ', this.$refs.btn)
+      },
+      beforeMount() {
+        console.log('beforeMount: ', this.$refs.btn)
+      },
+      //如果给标签绑定 ref="xxx" 属性，则使用 this.$refs.xxx获取原生的DOM对象
+      //注意：ref属性值不能重名，否则前面的则会被后面的所覆盖
+      //如果是给组件绑定ref属性，那么this.$refs.xxx获取的是当前的组件对象
+      mounted() {
+        console.log('mounted: ', this.$refs.btn)
+        console.log('mounted SubCom: ', this.$refs.subCom)
+      }
+    }
+    new Vue({
+      el : '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
+</body>
+</html>
