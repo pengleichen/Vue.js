@@ -2,9 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>03-Vue组件通信三</title>
 </head>
 <body>
-$END$
+  <div id="app"></div>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    /*
+    上面两种方式处理的都是父子组件之间的数据传递，而如果两个组件不是父子关系呢？
+    这种情况下可以使用中央事件总线的方式。
+    新建一个Vue事件bus对象，然后通过bus.$emit触发事件，bus.$on监听触发的事件
+     */
+
+    //中央事件总线
+    const bus = new Vue();
+    Vue.component('Brother1', {
+      data() {
+        return {
+          message: 'hello brother 2.'
+        }
+      },
+      template: `
+        <div>
+          <p>我是老大</p>
+          <input type="text" v-model="message" @input="passData(message)">
+        </div>
+      `,
+      methods: {
+        passData(val) {
+          bus.$emit('globalEvent', val)
+        }
+      }
+    })
+    Vue.component('Brother2', {
+      data() {
+        return {
+          message: 'Hello brother1',
+          brother2Message: ''
+        }
+      },
+      template: `
+        <div>
+          <p>我是老二</p>
+          <p>老大传递过来的数据：{{brother2Message}}</p>
+        </div>
+      `,
+      mounted() {
+        // 绑定全局事件globalEvent事件
+        bus.$on('globalEvent', val => this.brother2Message = val)
+      }
+    })
+
+    const App = {
+      data() {
+        return {
+          message: '我是App组件的消息'
+        }
+      },
+      template: `
+        <div>
+          <p>{{message}}</p>
+          <Brother1></Brother1>
+          <Brother2></Brother2>
+        </div>
+      `
+    }
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
 </body>
 </html>

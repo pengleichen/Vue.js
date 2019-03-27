@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>05-Vue组件通信五</title>
 </head>
 <body>
-$END$
+  <div id="app"></div>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    /*
+    通过 $parent 和 $children进行父子组件的数据传递
+     */
+    Vue.component('Child', {
+      data() {
+        return {
+          cMessage: ''
+        }
+      },
+      template: `
+        <div>
+          <p>我是Child组件</p>
+          <input type="text" v-model="cMessage" @input="passData(cMessage)">
+        </div>
+      `,
+      methods: {
+        passData() {
+          this.$parent.pMessage = this.cMessage
+        }
+      }
+    })
+
+    Vue.component('Parent', {
+      data() {
+        return {
+          pMessage: '我是Parent的消息'
+        }
+      },
+      template: `
+        <div>
+          <p>我是Parent组件: {{pMessage}}</p>
+          <button @click="sendData">Send Message to Child</button>
+          <Child />
+        </div>
+      `,
+      methods: {
+        sendData() {
+          this.$children[0].cMessage = this.pMessage
+        }
+      }
+    })
+
+    const App = {
+      template: `<Parent />`
+    }
+
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
 </body>
 </html>

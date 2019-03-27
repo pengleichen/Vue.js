@@ -2,9 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>04-Vue组件通信四</title>
 </head>
 <body>
-$END$
+  <div id="app"></div>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    /*
+    父组件中通过provider来提供变量，然后在子组件中通过inject来注入变量。
+    不论子组件有多深，只要调用了inject那么就可以注入provider中的数据。
+    而不是局限于只能从当前父组件的prop属性来获取数据，只要在父组件的生命周期内，子组件都可以调用。
+     */
+    Vue.component('Child', {
+      data() {
+        return {
+          cMessage: ''
+        }
+      },
+      template: `
+        <div>
+          <h2>我是Child组件：</h2>
+          <p>{{cMessage}}</p>
+        </div>
+      `,
+      inject: ['appMessage'],
+      created() {
+        this.cMessage = this.appMessage
+      }
+    })
+    Vue.component('Parent', {
+      template: `
+        <div>
+          <h1>我是Parent组件</h1>
+          <Child />
+        </div>
+      `
+    })
+    const App = {
+      template: `
+        <div>
+          <h1>我是App组件</h1><hr>
+          <Parent />
+        </div>
+      `,
+      provide: {
+        appMessage: '我是来自于App组件的消息！！！'
+      }
+    }
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
 </body>
 </html>
