@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>02-vue-router的基本使用</title>
+  <title>03-命名路由</title>
 </head>
 <body>
   <!-- 1. 引入Vue的模块 -->
@@ -32,10 +32,12 @@
         // 路由匹配的规则
         {
           path: '/login',
+          name: 'login',
           component: Login
         },
         {
           path: '/register',
+          name: 'register',
           component: Register
         }
       ]
@@ -46,8 +48,8 @@
     const App = {
       template: `
         <div>
-          <router-link to="/login">登录页面</router-link>
-          <router-link to="/register">注册页面</router-link>
+          <router-link :to="{name: 'login'}">登录页面</router-link>
+          <router-link :to="{name: 'register'}">注册页面</router-link>
           <router-view />
         </div>
       `

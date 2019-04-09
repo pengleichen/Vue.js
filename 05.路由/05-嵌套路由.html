@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>04-路由参数</title>
+  <title>05-嵌套路由</title>
 </head>
 <body>
   <!-- 1. 引入Vue的模块 -->
@@ -19,49 +19,48 @@
     */
     // 3. 让Vue使用该VueRouter创建
     // Vue.use(VueRouter); // 使用vue-cli可能需要手动挂载，而这里都是全局的对象
+    const Home = {
+      template: `
+        <div>我是首页
+          <br>
+          <router-link to="/home/song">歌曲</router-link>
+          <router-link to="/home/movie">电影</router-link>
+          <router-view />
+        </div>
+      `
+    }
+
+    const Song = {
+      template: `
+        <div>我是歌曲页面</div>
+      `
+    }
+
+    const Movie = {
+      template: `
+        <div>我是电影页面</div>
+      `
+    }
     // 4. 创建router对象
-    const UserParam = {
-      template: `
-        <div>我是用户1, 我的ID是：{{id}}</div>
-      `,
-      data() {
-        return {
-          id: null
-        }
-      },
-      created() {
-        console.log(this.$route.params)
-        this.id = this.$route.params.id
-      }
-    }
-    const UserQuery = {
-      template: `
-        <div>我是用户2，我的用户名是：{{name}}</div>
-      `,
-      data() {
-        return {
-          name: null
-        }
-      },
-      created() {
-        console.log(this.$route.query)
-        this.name = this.$route.query.username
-      }
-    }
+
     const router = new VueRouter({
       //5. 配置路由对象
       routes: [
         // 路由匹配的规则
         {
-          // 动态路由参数 以 : 开头
-          path: '/user/:id',
-          name: 'userP',
-          component: UserParam
-        },
-        {
-          path: '/user',
-          name: 'userQ',
-          component: UserQuery
+          path: '/home',
+          name: 'home',
+          component: Home,
+          children: [
+            {
+              path: 'song',
+              component: Song
+            },
+            {
+              path: 'movie',
+              component: Movie
+            }
+          ]
         }
       ]
     })
@@ -71,8 +70,7 @@
     const App = {
       template: `
         <div>
-          <router-link :to="{name: 'userP', params: {id: 1}}">用户1页面</router-link>
-          <router-link :to="{name: 'userQ', query: {username: 'aaa'}}">用户2页面</router-link>
+          <router-link :to="{name: 'home'}">首页</router-link>
           <router-view />
         </div>
       `

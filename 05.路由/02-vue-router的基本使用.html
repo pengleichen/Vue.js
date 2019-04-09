@@ -2,9 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>02-vue-router的基本使用</title>
 </head>
 <body>
+  <!-- 1. 引入Vue的模块 -->
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <!-- 2. 引入Vue-router的模块 -->
+  <script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+  <div id="app"></div>
 
+  <script type="text/javascript">
+
+    // 3. 让Vue使用该VueRouter创建
+    // Vue.use(VueRouter); // 使用vue-cli可能需要手动挂载，而这里都是全局的对象
+    // 4. 创建router对象
+    const Login = {
+      template: `
+        <div>我是登录页面</div>
+      `
+    }
+    const Register = {
+      template: `
+        <div>我是注册页面</div>
+      `
+    }
+    const router = new VueRouter({
+      //5. 配置路由对象
+      routes: [
+        // 路由匹配的规则
+        {
+          path: '/login',
+          component: Login
+        },
+        {
+          path: '/register',
+          component: Register
+        }
+      ]
+    })
+
+    // 引入vue-router模块之后，给咱们抛出来两个全局的组件，
+    // router-link(a)[to(href)]、router-view(路由匹配组件的出口)
+    const App = {
+      template: `
+        <div>
+          <router-link to="/login">登录页面</router-link>
+          <router-link to="/register">注册页面</router-link>
+          <router-view />
+        </div>
+      `
+    }
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+
+        }
+      },
+      components: {
+        App
+      },
+      template: `<App/>`,
+      // 6. 交个Vue实例化管理
+      router
+    })
+
+  </script>
 </body>
 </html>
