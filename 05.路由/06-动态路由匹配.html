@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>06-动态路由匹配</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+
+    const Timeline = {
+      template: `
+        <div id="timeline">
+          我是首页
+          <div>
+            <router-link :to="{name: 'module', params: {module: 'frontend' }}">前端</router-link>
+            <router-link :to="{name: 'module', params: {module: 'backend' }}">后端</router-link>
+            <router-view />
+          </div>
+        </div>
+      `
+    }
+
+    const Pins = {
+      template: `
+        <div>我是沸点</div>
+      `
+    }
+
+    const CommonModule = {
+      template: `
+        <div>
+          我是{{msg}}
+        </div>
+      `,
+      data() {
+        return {
+          msg: ''
+        }
+      },
+      created() {
+        this.msg = this.$route.params.module;
+      }
+    }
+
+    const router = new VueRouter({
+      routes: [
+        {
+          path: '/timeline',
+          component: Timeline,
+          children: [
+            {
+              name: 'module',
+              path: '/timeline/:module',
+              component: CommonModule
+            }
+          ]
+        },
+        {
+          path: '/pins',
+          component: Pins
+        }
+      ]
+    })
+    const App = {
+      template: `
+        <div>
+          <router-link to="/timeline">首页</router-link>
+          <router-link to="/pins">沸点</router-link>
+          
+          <router-view/>
+        </div>
+      `
+    }
+
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `,
+      router
+    })
+  </script>
+</body>
+</html>
