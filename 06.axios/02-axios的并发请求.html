@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>02-axios的并发请求</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/axios/dist/axios.js"></script>
+  <script>
+
+    const App = {
+      data() {
+        return {
+          res1: null,
+          res2: null
+        }
+      },
+      template: `
+        <div>
+          <p>Res1: {{res1}} </p>
+          <p>Res2: {{res2}} </p>
+          <div>
+            <button @click="send()">并发请求</button>
+          </div>
+        </div>
+      `,
+      methods: {
+        send() {
+          this.$axios.defaults.baseURL = 'https://api.github.com/users/'
+          const r1 = this.$axios.get('mojombo')
+          const r2 = this.$axios.get('defunkt')
+          this.$axios.all([r1, r2])
+            .then(this.$axios.spread((res1, res2) => {
+              console.log(res1, res2)
+              this.res1 = res1.data
+              this.res2 = res2.data
+            }))
+            .catch(err => console.log(err))
+        }
+      }
+    }
+
+    Vue.prototype.$axios = axios;
+
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
+</body>
+</html>
