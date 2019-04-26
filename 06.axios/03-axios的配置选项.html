@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>03-axios的配置选项</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/axios/dist/axios.js"></script>
+  <script>
+
+    const App = {
+      template: `
+        <div>
+          <button @click="sendAjax">发送请求</button>
+        </div>
+      `,
+      methods: {
+        sendAjax() {
+          this.$axios.defaults.baseURL = 'https://api.github.com/users/'
+          this.$axios.get('pengleichen', {
+            // transformRequest(data) {} 只能适用于POST, PUT, DELETE, PATCH
+            // url, method, params ....
+            
+            transformResponse(data) {
+              data = JSON.parse(data);
+              data.name = data.login;
+              console.log(data)
+              console.log(typeof data)
+              return data
+            }
+          })
+            .then(res => console.log(res.data.name))
+            .catch(err => console.log(err))
+        }
+      }
+    }
+
+    
+    Vue.prototype.$axios = axios;
+    new Vue({
+      el: '#app',
+      template: `<App />`,
+      components: {
+        App
+      }
+    })
+  </script>
+</body>
+</html>
