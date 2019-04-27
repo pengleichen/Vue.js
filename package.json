@@ -5,6 +5,9 @@
   "repository": "https://github.com/pengleichen/Vue.js.git",
   "author": "pengleichen <chenpenglei000@yahoo.com>",
   "license": "MIT",
+  "scripts": {
+    "build_module": "webpack ./07.webpack/01_module/index.js --output=./07.webpack/01_module/dist/main.js"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "vue": "^2.6.10",
