@@ -1,7 +1,8 @@
 {
-  "name": "Vue.js",
+  "name": "vuejs_self",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "repository": "https://github.com/pengleichen/Vue.js.git",
   "author": "pengleichen <chenpenglei000@yahoo.com>",
   "license": "MIT",
@@ -11,7 +12,9 @@
     "build_config_prod": "webpack --config=./07.webpack/02_config/webpack.prod.config.js",
     "build_loader": "webpack --config=./07.webpack/03_loader/webpack.config.js --watch",
     "start_dev_server": "webpack-dev-server --open --hot --config=./07.webpack/04_webpack-dev-server/webpack.config.js --watch",
-    "build_babel": "webpack --config=./07.webpack/05_babel/webpack.config.js --watch"
+    "build_babel": "webpack --config=./07.webpack/05_babel/webpack.config.js --watch",
+    "start_single_file": "webpack-dev-server --open --hot --config=./07.webpack/06_single-file/webpack.config.js",
+    "build_chunk": "webpack --config=./07.webpack/07_chunk/webpack.config.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -35,6 +38,9 @@
     "less-loader": "^4.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
+    "vue-loader": "^15.7.0",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
     "webpack-dev-server": "^3.3.1",
