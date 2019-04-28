@@ -1,0 +1,1 @@
+export const common = "我是common模块！"
