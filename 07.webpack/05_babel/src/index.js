@@ -12,4 +12,6 @@ const ROOT = 'dist'
 let vue = new Vue()
 const testFun = () => console.log('testFun')
 
-new Promise()
+console.log(typeof Promise)
+Promise.resolve().finally()
+new Promise((resolve => console.log(resolve)))

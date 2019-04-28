@@ -106,7 +106,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue */ \"./node_modules/vue/dist/vue.js\");\n/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_dist_vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ \"./07.webpack/05_babel/src/App.js\");\n\n\nnew vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default.a({\n  el: '#app',\n  template: \"<App />\",\n  components: {\n    App: _App__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n  }\n});\nvar ROOT = 'dist';\nvar vue = new vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default.a();\n\nvar testFun = function testFun() {\n  return console.log('testFun');\n};\n\nnew Promise();\n\n//# sourceURL=webpack:///./07.webpack/05_babel/src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/typeof */ \"./node_modules/@babel/runtime/helpers/typeof.js\");\n/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue/dist/vue */ \"./node_modules/vue/dist/vue.js\");\n/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_dist_vue__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ \"./07.webpack/05_babel/src/App.js\");\n\n\n\nnew vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default.a({\n  el: '#app',\n  template: \"<App />\",\n  components: {\n    App: _App__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n  }\n});\nvar ROOT = 'dist';\nvar vue = new vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default.a();\n\nvar testFun = function testFun() {\n  return console.log('testFun');\n};\n\nconsole.log(typeof Promise === \"undefined\" ? \"undefined\" : _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(Promise));\nPromise.resolve()[\"finally\"]();\nnew Promise(function (resolve) {\n  return console.log(resolve);\n});\n\n//# sourceURL=webpack:///./07.webpack/05_babel/src/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("function _typeof2(obj) { if (typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }; } return _typeof2(obj); }\n\nfunction _typeof(obj) {\n  if (typeof Symbol === \"function\" && _typeof2(Symbol.iterator) === \"symbol\") {\n    module.exports = _typeof = function _typeof(obj) {\n      return _typeof2(obj);\n    };\n  } else {\n    module.exports = _typeof = function _typeof(obj) {\n      return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : _typeof2(obj);\n    };\n  }\n\n  return _typeof(obj);\n}\n\nmodule.exports = _typeof;\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime/helpers/typeof.js?");
 
 /***/ }),
 
