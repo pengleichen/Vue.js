@@ -14,7 +14,8 @@
     "start_dev_server": "webpack-dev-server --open --hot --config=./07.webpack/04_webpack-dev-server/webpack.config.js --watch",
     "build_babel": "webpack --config=./07.webpack/05_babel/webpack.config.js --watch",
     "start_single_file": "webpack-dev-server --open --hot --config=./07.webpack/06_single-file/webpack.config.js",
-    "build_chunk": "webpack --config=./07.webpack/07_chunk/webpack.config.js"
+    "build_chunk": "webpack --config=./07.webpack/07_chunk/webpack.config.js",
+    "start_lazy": "webpack-dev-server --open --config=./07.webpack/08_lazy/webpack.config.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
