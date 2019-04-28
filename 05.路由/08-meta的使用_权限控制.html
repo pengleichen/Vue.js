@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>08-meta的使用_权限控制</title>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+<script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+
+  /*
+  * 当使用路由参数时，原来的组件实例会被复用，也意味着组件的生命周期钩子不会被调用
+   */
+  const bus = new Vue();
+  const Home = {
+    template: `
+      <div>
+        <h2>我是首页</h2>
+      </div>
+    `
+  }
+
+  const Blog = {
+    template: `
+      <div>
+        <h2>我的博客</h2>
+      </div>
+    `
+  }
+
+  const Login = {
+    data() {
+      return {
+        user: {
+          name: '',
+          password: ''
+        }
+      }
+    },
+    template: `
+      <div>
+        <form>
+          <input type="text" name="name" v-model="user.name" required> <br>
+          <input type="password" name="password" v-model="user.password" required
+            @keyup.enter="login"> <br>
+          <input type="submit" value="登录" @click="login">
+        </form>
+      </div>
+    `,
+    methods: {
+      login() {
+        localStorage.setItem('user', this.user)
+        bus.$emit('userLogon', this.user.name)
+        // 编程式路由跳转
+        this.$router.push({
+          path: '/blog'
+        })
+      }
+    }
+  }
+
+  const router = new VueRouter({
+    routes: [
+      {
+        path: '/',
+        redirect: '/home'
+      },
+      {
+        path: '/home',
+        component: Home
+      },
+      {
+        path: '/blog',
+        component: Blog,
+        meta: {
+          // 需要登录认证
+          auth: true
+        }
+      },
+      {
+        path: '/login',
+        component: Login
+      }
+    ]
+  })
+  // 全局路由守卫
+  router.beforeEach((to, from, next) => {
+    console.log(to, from)
+    if (to.meta.auth) {
+      if (localStorage.getItem('user')) {
+        next()
+      } else {
+        next({
+          path: '/login'
+        })
+      }
+    } else {
+      next()
+    }
+  })
+
+  const App = {
+    data() {
+      return {
+        username: ''
+      }
+    },
+    template: `
+      <div>
+        <router-link to="/home">首页</router-link>
+        <router-link to="/blog">我的博客</router-link>
+        <p v-if="username">Welcome, {{username}}</p>
+        <router-view></router-view>
+      </div>
+    `,
+    mounted() {
+      bus.$on('userLogon', val => this.username = val)
+    }
+  }
+
+  new Vue({
+    el: '#app',
+    components: {
+      App
+    },
+    template: `
+      <App />
+    `,
+    router
+  })
+</script>
+</body>
+</html>
