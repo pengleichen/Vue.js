@@ -12,6 +12,9 @@
   <script src="../node_modules/vue-router/dist/vue-router.js"></script>
   <script>
 
+    /*
+    * 当使用路由参数时，原来的组件实例会被复用，也意味着组件的生命周期钩子不会被调用
+     */
     const Timeline = {
       template: `
         <div id="timeline">
@@ -43,7 +46,16 @@
         }
       },
       created() {
-        this.msg = this.$route.params.module;
+        console.log('created...')
+        this.msg = this.$route.params.module
+      },
+      // 在当前组件内部 监听路由信息的变化
+      watch: {
+        '$route'(to, from) {
+          console.log(to, from)
+          // 发送Ajax请求
+          this.msg = to.params.module
+        }
       }
     }
 

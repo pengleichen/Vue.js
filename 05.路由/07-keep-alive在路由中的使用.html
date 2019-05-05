@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>07-keep-alive在路由中的使用</title>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+<script type="text/javascript" src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+
+  /*
+  * 当使用路由参数时，原来的组件实例会被复用，也意味着组件的生命周期钩子不会被调用
+   */
+  const Timeline = {
+    template: `
+      <div id="timeline">
+        <h2>我是首页</h2>
+      </div>
+    `,
+    created() {
+      console.log('Timeline created ...')
+    },
+    mounted() {
+      console.log('Timeline mounted ...')
+    },
+    destroyed() {
+      console.log('Timeline destroyed ...')
+    }
+  }
+
+  const Pins = {
+    template: `
+      <div>
+        <h2 @click="renderRed">我是沸点</h2>
+      </div>
+    `,
+    methods: {
+      renderRed(e) {
+        e.target.style.color = 'red'
+      }
+    },
+    created() {
+      console.log('Pins created ...')
+    },
+    mounted() {
+      console.log('Pins mounted ...')
+    },
+    destroyed() {
+      console.log('Pins destroyed ...')
+    }
+
+  }
+
+  const router = new VueRouter({
+    routes: [
+      {
+        path: '/timeline',
+        component: Timeline
+      },
+      {
+        path: '/pins',
+        component: Pins
+      }
+    ]
+  })
+  const App = {
+    template: `
+      <div>
+        <router-link to="/timeline">首页</router-link>
+        <router-link to="/pins">沸点</router-link>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </div>
+    `
+  }
+
+  new Vue({
+    el: '#app',
+    components: {
+      App
+    },
+    template: `
+      <App />
+    `,
+    router
+  })
+</script>
+</body>
+</html>
