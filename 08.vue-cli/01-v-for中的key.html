@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>01-v-for中的key</title>
+  <style>
+    .user-info {
+      margin: 15px 0;
+      padding: 10px 8px;
+      border: 1px solid red;
+    }
+    .user-info .content {
+      font-weight: bold;
+    }
+    .user-info .control input {
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/lodash/lodash.js"></script>
+  <script>
+
+    Vue.component('UserInfo', {
+      template: `
+        <div class="user-info">
+          <div class="content">
+            <h3>{{user.name}}</h3>
+            <p>{{user.info}}</p>
+          </div>
+          <div class="control">
+            <input type="text" placeholder="请输入你的名字">
+          </div>
+        </div>
+      `,
+      props: {
+        user: Object
+      }
+    })
+
+    //总结一句话：当给组件使用v-for遍历的时候，一定要加上 :key属性，避免让vur帮咱们计算DOM
+    const App = {
+      data() {
+        return {
+          users: [
+            {id: 1, name: '张三', info: '我是张三'},
+            {id: 2, name: '李四', info: '我是李四'},
+            {id: 3, name: '王五', info: '我是王五'}
+          ]
+        }
+      },
+      template: `
+        <div>
+          <button @click="order">改变顺序</button>
+          <UserInfo v-for="(user, index) in users" :user="user" :key="user.id"></UserInfo>
+        </div>
+      `,
+      methods: {
+        order() {
+          this.users = _.shuffle(this.users)
+        }
+      }
+    }
+
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`
+    })
+  </script>
+</body>
+
+</html>
