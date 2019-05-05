@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>03-导航完成之前获取数据</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script src="../node_modules/axios/dist/axios.js"></script>
+<script>
+  const Test = {
+    template: `
+        <div>我是测试页</div>
+      `
+  }
+
+  const User = {
+    data() {
+      return {
+        num: 0,
+        msg: null,
+        error: null,
+        user: null
+      }
+    },
+    template: `
+      <div>
+        <div>{{num}}</div>
+        <input type="text" v-model="msg">
+        <p>{{msg}}</p>
+        <button @click="save">保存</button>
+        <div class="error" v-if="error">{{error}}</div>
+        <div class="user" v-else-if="user">
+          <h2>{{user}}</h2>
+        </div>
+      </div>
+    `,
+    methods: {
+      save() {
+
+      }
+    }
+  }
+
+  Vue.use(VueRouter)
+  const router = new VueRouter({
+    routes: [
+      {
+        path: '/test',
+        component: Test
+      },
+      {
+        name: 'user',
+        path: '/user/:id',
+        component: User
+      }
+    ]
+  })
+
+  const App = {
+    template: `
+      <div>
+        <router-link to="/test">测试</router-link>
+        <router-link :to="{name: 'user', params: {id: 1} }">用户1</router-link>
+        <router-link :to="{name: 'user', params: {id: 2} }">用户2</router-link>
+        <router-view></router-view>
+      </div>
+    `
+  }
+
+  new Vue({
+    el: '#app',
+    components: {
+      App,
+    },
+    template: `<App />`,
+    router,
+  })
+</script>
+</body>
+</html>

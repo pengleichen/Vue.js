@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>02-watch监听路由之导航守卫</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+  <script src="../node_modules/axios/dist/axios.js"></script>
+  <script>
+
+    const Home = {
+      template: `
+        <div>Home Page</div>
+      `
+    }
+
+    const Blog = {
+      data() {
+        return {
+          loading: false,
+          error: null
+        }
+      },
+      template: `
+        <div>
+          <h2>Blog Page</h2>
+          <div>
+            <div class="loading" v-if="loading">Loading...</div>
+            <div class="error" v-else-if="error">{{error}}</div>
+            <div class="content" v-else-if="user">
+              <img :src="user.avatar_url" alt="avatar">
+              <h2>{{user.login}}</h2>
+              <p>{{user.html_url}}</p>
+            </div>
+          </div>
+        </div>
+      `,
+      created() {
+        this.fetchData()
+      },
+      watch: {
+        '$route': 'fetchData'
+      },
+      methods: {
+        fetchData() {
+          this.loading = true;
+          this.error = null;
+          this.user = null;
+          this.$axios.get('https://api.github.com/users/chenpenglei')
+            .then(res => {
+              this.user = res.data
+              this.loading = false
+            })
+            .catch(error => {
+              this.loading = false
+              this.error = error.toString()
+            })
+
+        }
+      }
+    }
+
+    const router = new VueRouter({
+      routes: [
+        {
+          name: 'home',
+          path: '/home',
+          component: Home
+        },
+        {
+          name: 'blog',
+          path: '/blog',
+          component: Blog
+        }
+      ]
+    })
+
+    const App = {
+      template: `
+        <div>
+          <router-link :to="{name: 'home'}">Home</router-link>
+          <router-link :to="{name: 'blog'}">Blog</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+    Vue.prototype.$axios = axios
+    new Vue({
+      el: '#app',
+      components: {
+        App
+      },
+      template: `<App />`,
+      router
+    })
+  </script>
+</body>
+</html>
