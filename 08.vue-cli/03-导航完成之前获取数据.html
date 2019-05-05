@@ -20,7 +20,9 @@
     data() {
       return {
         num: 0,
-        msg: null,
+        msg: '',
+        msg1: '',
+        confirm: true,
         error: null,
         user: null
       }
@@ -29,17 +31,66 @@
       <div>
         <div>{{num}}</div>
         <input type="text" v-model="msg">
-        <p>{{msg}}</p>
+        <p>{{msg1}}</p>
         <button @click="save">保存</button>
         <div class="error" v-if="error">{{error}}</div>
-        <div class="user" v-else-if="user">
-          <h2>{{user}}</h2>
-        </div>
+        <div class="user" v-else-if="user">{{user}}</div>
       </div>
     `,
     methods: {
       save() {
+        this.confirm = false
+        localStorage.msg = this.msg
+        this.msg1 = this.msg
+        this.msg = ''
+      },
+      setData(data) {
+        this.user = data
+      },
+      setError(error) {
+        this.error = error
+      }
+    },
+    created() {
+      this.msg1 = localStorage.msg || ''
+    },
+    beforeRouteEnter(to, from, next) {
+      // 在渲染该组件的对应路由被confirm前调用
+      // 不！能！获取组件实例的this
+      // 因为当守卫执行前，组件实例还没被创建
 
+      axios.defaults.baseURL = 'https://api.github.com'
+      axios.get(`/user/${to.params.id}`)
+        .then(res => next(vm => vm.setData(res.data.login)))
+        .catch(err => next(vm => vm.setError(err)))
+    },
+    beforeRouteUpdate(to, from, next) {
+      // 在当前路由改变，但是该组件被复用时调用
+      // 举例来说，对于一个带有动态参数的路径/users/:id，在/users/1和/users/2之间跳转的时候
+      // 由于会渲染同样的User组件，因此组件实例会被复用，而这个钩子就会在这个情况下被调用。
+      // 可以访问组件实例this
+      this.user = null
+      this.$axios.get(`/user/${to.params.id}`)
+        .then(res => {
+          this.setData(res.data.login)
+          next()
+        })
+        .catch(err => {
+          this.setError(err)
+          next()
+        })
+    },
+    beforeRouteLeave(to, from, next) {
+      // 导航离开该组件的对应路由时调用
+      // 可以访问组件实例的this
+      if (this.msg && this.confirm) {
+        let confirm = window.confirm('你需要保存数据？')
+        if (confirm) {
+          this.save()
+        }
+        next(confirm)
+      } else {
+        next()
       }
     }
   }
@@ -70,6 +121,7 @@
     `
   }
 
+  Vue.prototype.$axios = axios
   new Vue({
     el: '#app',
     components: {
