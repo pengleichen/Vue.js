@@ -6,6 +6,11 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+// 使用mint-ui引入全部的组件
+import Mint from 'mint-ui'
+Vue.use(Mint)
+import 'mint-ui/lib/style.css'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
