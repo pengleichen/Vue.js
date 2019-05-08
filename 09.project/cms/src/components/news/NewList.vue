@@ -12,10 +12,11 @@
                 p.summary.multi-line-ellipsis {{item.description}}
                 p.leftover
                   span.praise 点赞数：{{item.like}}
-                  span.time 发表时间：{{item.createTime}}
+                  span.time 发表时间：{{item.publishedAt}}
 </template>
 
 <script>
+  import moment from 'moment'
   export default {
     data() {
       return {
@@ -26,16 +27,17 @@
       this.$axios.defaults.baseURL = 'https://newsapi.org/v2/'
       this.$axios.get('everything', {
         params: {
-          q : 'bitcoin',
-          from: '2019-04-08',
-          sortBy: 'publishedAt',
+          q: '美图',
+          language: 'zh',
+          pageSize: 30,
+          sortBy: 'popularity',
           apiKey: '165313c207224507b5e8bc02b8071bd0'
         },
         transformResponse(data) {
           data = JSON.parse(data)
           data.articles.map(item => {
             item.like = Math.floor(Math.random() * Math.floor(50))
-            item.createTime = `2019-${Math.floor(Math.random()*11 + 1)}-${Math.floor(Math.random()*25 + 1)}`
+            item.publishedAt = moment(item.publishedAt).format('YYYY-MM-DD')
             return item
           })
           return data;
@@ -82,7 +84,7 @@
     width: 70%;
     .title {
       display: inline-block;
-      color: #131f3c;
+      color: #1f59df;
       letter-spacing: 0;
       font-family: PingFangSC-Regular;
       margin-top: 10px;
