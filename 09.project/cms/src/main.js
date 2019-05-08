@@ -17,6 +17,8 @@ Vue.prototype.$axios = Axios
 
 import '@/assets/css/style.less'
 
+import '@/utils'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

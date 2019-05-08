@@ -12,11 +12,10 @@
                 p.summary.multi-line-ellipsis {{item.description}}
                 p.leftover
                   span.praise 点赞数：{{item.like}}
-                  span.time 发表时间：{{item.publishedAt}}
+                  span.time 发表时间：{{item.publishedAt | date}}
 </template>
 
 <script>
-  import moment from 'moment'
   export default {
     data() {
       return {
@@ -37,7 +36,6 @@
           data = JSON.parse(data)
           data.articles.map(item => {
             item.like = Math.floor(Math.random() * Math.floor(50))
-            item.publishedAt = moment(item.publishedAt).format('YYYY-MM-DD')
             return item
           })
           return data;
