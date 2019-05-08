@@ -53,9 +53,6 @@
 </script>
 
 <style lang="less" scoped>
-#news {
-  padding-bottom: 100px;
-}
 .news-list {
   width: 100%;
   border: 1px solic #ccc;
@@ -81,7 +78,7 @@
     }
   }
   .content {
-    width: 70%;
+    width: 66%;
     .title {
       display: inline-block;
       color: #1f59df;

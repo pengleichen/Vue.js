@@ -15,7 +15,7 @@ import 'mint-ui/lib/style.css'
 import Axios from 'axios'
 Vue.prototype.$axios = Axios
 
-import '@/assets/css/style.css'
+import '@/assets/css/style.less'
 
 /* eslint-disable no-new */
 new Vue({

@@ -23,7 +23,8 @@ export default {
   }
   .container {
     flex: 1;
-    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 60px;
     overflow: auto;
   }
 </style>
