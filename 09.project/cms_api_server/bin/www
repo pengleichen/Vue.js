@@ -7,7 +7,17 @@
 var app = require('../app');
 var debug = require('debug')('cms-api-server:server');
 var http = require('http');
+var chokidar = require('chokidar');
+var watcher = chokidar.watch(['../db', '../public', '../routes', '../app.js'])
 
+watcher.on('ready', () => {
+  watcher.on('all', () => {
+    console.log('Clearing /dist/ mode cache from server')
+    Object.keys(require.cache).forEach(id => {
+      delete require.cache[id]
+    })
+  })
+})
 /**
  * Get port from environment and store in Express.
  */

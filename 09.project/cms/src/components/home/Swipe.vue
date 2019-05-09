@@ -15,7 +15,7 @@
     },
     created() {
       for(let i = 0; i < this.swipeNum; i++) {
-        this.items.push({id: i, src: `http://lorempixel.com/400/200?${i}`})
+        this.items.push({id: i, src: `http://localhost:3000/images/${i+1}`})
       }
     }
   }
