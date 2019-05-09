@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 node_modules/
 bower_components/
 dist/
-=======
-bower_components/
-node_modules/
-/dist/
->>>>>>> 583d758e1abfcbb16b63064a9a60de4dab0b8f4b
 vendor
 *.lock
 *.log
