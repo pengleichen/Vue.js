@@ -1,16 +1,14 @@
-const Sequelize = require('sequelize')
-const DataTypes = Sequelize.DataTypes
-const sequelize = require('../config/index')
-class Swipe extends Sequelize.Model {}
-Swipe.init({
+const {DataTypes, defineModel} = require('../config/connect')
+
+const Swipe = defineModel('swipe', {
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT(11),
     primaryKey: true,
+    allowNull: false,
+    unique: true,
     autoIncrement: true
   },
-  href: {
-    type: DataTypes.STRING
-  }
-}, {sequelize, modelName: 'swipe'})
+  href: DataTypes.STRING
+})
 
 module.exports = Swipe

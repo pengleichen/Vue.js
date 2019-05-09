@@ -13,6 +13,7 @@ import 'mint-ui/lib/style.css'
 
 // 配置Axios
 import Axios from 'axios'
+Axios.defaults.baseURL = 'http://localhost:3000/api/'
 Vue.prototype.$axios = Axios
 
 import '@/assets/css/style.less'

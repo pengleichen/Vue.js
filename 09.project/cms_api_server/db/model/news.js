@@ -1,17 +1,19 @@
-const Sequelize = require('sequelize')
-const DataTypes = Sequelize.DataTypes
-const sequelize = require('../config/index')
+const {DataTypes, defineModel} = require('../config/connect')
 
-class News extends Sequelize.Model { }
-
-News.init({
+const News = defineModel('news', {
   id: { //自增长id,主键,整形
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT(11),
     primaryKey: true,
+    allowNull: false,
+    unique: true,
     autoIncrement: true
   },
-  title: {
-    type: DataTypes.STRING
-  }
-}, {sequelize, modelName: 'news'})
+  title: DataTypes.STRING,
+  publishedAt: DataTypes.DATE,
+  description: DataTypes.TEXT,
+  like: DataTypes.BIGINT(11),
+  imgUrl: DataTypes.STRING
+})
+
+module.exports = News
 
