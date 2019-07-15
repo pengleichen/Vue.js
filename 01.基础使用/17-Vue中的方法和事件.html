@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>方法与事件</title>
+</head>
+<body>
+<script>
+  /*
+  事件：v-on:事件名或者使用语法糖 @事件名
+  事件修饰符：
+    .stop       @click.stop           阻止单机事件冒泡
+    .prevent    @submit.prevent       提交事件不再重载页面
+    .capture    @click.capture        添加事件监听器时使用事件捕获模式
+    .self       @click.self           只当事件在该元素本身（而不是子元素）触发时触发回调
+    .once       @click.once           只触发一次，组件同样适用
+
+    @click.stop.prevent   修饰符可以串联
+  按键修饰符：
+    @keyup.13="submit"，
+    也可以配置具体的按键，Vue.config.keyCodes.f1 = 112，全局定义后，就可以使用@keyup.f1
+    .enter
+    .tab
+    .delete（捕获“删除”和“退格”键）
+    .esc
+    .space
+    .up
+    .down
+    .right
+    .left
+
+    以下按键修饰符也可以组合使用，或者和鼠标一起配合使用：
+    .ctrl
+    .shift
+    .alt
+    .meta（Mac下是Command键，Windows下是窗口键）
+   */
+  new Vue({
+    el: '#app',
+    data: {
+      counter: 0
+    },
+    methods: {
+      addStep(step) {
+        this.counter += step || 1
+      }
+    },
+    computed: {},
+    template: `
+      <div>
+        点击次数：{{counter}}
+<!--        <button @click="counter++">+ 1</button>-->
+        <button @click="addStep()">+ 1</button>
+        <button @click="addStep(10)">+ 10</button>
+      </div>
+    `
+  })
+</script>
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+</body>
+</html>

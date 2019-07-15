@@ -26,18 +26,19 @@
     ul > li:hover {
       background-color: rosybrown;
     }
-    
+
     ul > li.active {
       background-color: aquamarine;
     }
-      
+
   </style>
 </head>
 <body>
   <div id="app">
     <img :src="currentAvatar">
     <ul>
-      <li :class="{active: currentIndex === index}" v-for="(user, index) in users" @click="changeUser(index)">
+      <li :class="{active: currentIndex === index}" v-for="(user, index) in users"
+          :key="user.id" @click="changeUser(index)">
         <h3>{{user.id}} - 姓名：{{user.login}}</h3>
         <p>地址: <a :href="user.html_url" target="_blank">{{user.html_url}}</a></p>
       </li>

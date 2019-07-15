@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>class与style绑定</title>
+  <style>
+    .active {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .btn {
+      padding: 6px 4px;
+      color: white;
+      background: #00B7FF;
+      border: 1px cornflowerblue dashed;
+    }
+
+    .btn-large {
+      font-size: 18px;
+      min-width: 120px;
+    }
+
+    .btn-disabled {
+      border: none;
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .error {
+      color: #f00;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div :class="{ 'active': isActive }">Test</div>
+</div>
+<div id="app0">
+  <button :class="classes">Test</button>
+</div>
+<div id="app1">
+  <div :class="[activeCls, errorCls]">Test</div>
+</div>
+<div id="app2">
+  <div :class="[activeCls, errorCls]">Test</div>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  /*
+   class绑定书写形式：
+    1. <div :class="{'active': isActive}"></div>
+    2. <div class="static" :class="{'active': isActive, 'error': isError}"></div>
+    3. <div :class="classes"></div> //其中classes为计算属性
+    4. <div :class="[activeCls, errorCls]"></div> //数组语法
+    5. <div :class="[{'active': isActive}, errorCls]"></div>
+    6. <div :class="[isActive?'active': '', errorCls]"></div>
+
+   style绑定和class类似，值得注意的是CSS的属性值可以采用驼峰命名(camelCase)或者短横分隔命名(kebab-case)
+
+   */
+
+  new Vue({
+    el: '#app',
+    data: {
+      isActive: true
+    }
+  })
+
+  new Vue({
+    el: '#app0',
+    data: {
+      size: 'large',
+      disabled: true
+    },
+    computed: {
+      classes() {
+        return [
+          'btn',
+          {
+            ['btn-' + this.size]: !!this.size,
+            ['btn-disabled']: this.disabled
+          }
+        ]
+      }
+    }
+  })
+
+  new Vue({
+    el: '#app1',
+    data: {
+      activeCls: 'active',
+      errorCls: 'error'
+    }
+  })
+
+</script>
+
+
+</body>
+</html>

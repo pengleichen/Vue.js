@@ -9,6 +9,9 @@
 <body>
   <div id="app">
     <!--模板语法{{}}双大括号插值 react: {}-->
+    <!--使用 v-pre 可以跳过这个元素和它的子元素的编译过程 -->
+    <span>{{html}}</span>
+    <span v-pre>{{html}}这里的内容不会被编译，会被直接展示在页面中</span>
     <h2>{{msg}}</h2>
     <h3>{{1+1}}</h3>
     <h4>{{isTrue}}</h4>
@@ -29,6 +32,7 @@
         msg: '黄瓜',
         isTrue: 1 === 1,
         str: 'hellovue',
+        html: `<h3>这是一个H3标签</h3>`
       },
       //template: `<div>{{msg}}</div>`
     })

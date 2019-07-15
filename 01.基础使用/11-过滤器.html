@@ -7,51 +7,77 @@
   <title>11-过滤器</title>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="../node_modules/vue/dist/vue.js"></script>
-  <script>
-    // 过滤器的作用：为页面中的数据进行添油加醋的功能
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  // 过滤器的作用：为页面中的数据进行添油加醋的功能
 
-    // 有两种：局部过滤器，全局过滤器
+  // 有两种：局部过滤器，全局过滤器
 
-    /*
-      1. 声明过滤器
-      2. {{数据 | 过滤器名称}}
-    */
+  /*
+    1. 声明过滤器
+    2. {{数据 | 过滤器名称}}
+    3. 串联：{{数据 | filterA | filterB}}
+    4. 接受参数：{{数据 | filterA('arg1', 'arg2')}}，
+        这里的字符串arg1,arg2分别传递给过滤器第二个和第三个参数，因为第一个是数据本身
+  */
 
-    Vue.filter('reverse', (v, args) => v ? v.split('').reverse().join('') + ' ' + args : v)
-
-    ;let App = {
-      data() {
-        return {
-          price: 0,
-          msg: 'hello filter',
-        }
-      },
-      template: `
+  Vue.filter('reverse', (v, args) => v ? v.split('').reverse().join('') + ' ' + args : v)
+  let padData = function (value) {
+    return value < 10 ? '0' + value : value
+  }
+  let App = {
+    data() {
+      return {
+        price: 0,
+        msg: 'hello filter',
+        date: new Date()
+      }
+    },
+    template: `
         <div>
           <input type="number" v-model="price" >
           <h3>{{ price | myCurrency }}</h3>
           <h4>{{ msg | reverse('HaHaHa') }}</h4>
+          <h5>{{ date | formatDate }}</h5>
         </div>
       `,
-      // 局部过滤器
-      filters: {
-        // 1. 声明过滤器
-        myCurrency(value) {
-          return '￥' + value
-        }
-      }
-    }
-    new Vue({
-      el: '#app',
-      components: {
-        App,
+    // 局部过滤器
+    filters: {
+      // 1. 声明过滤器
+      myCurrency(value) {
+        return '￥' + value
       },
-      template: `
+      // 这里的value就是需要过滤的数据
+      formatDate(value) {
+        const date = new Date(value)
+        let year = date.getFullYear()
+        let month = padData(date.getMonth() + 1)
+        let day = padData(date.getDate())
+        let hours = padData(date.getHours())
+        let minutes = padData(date.getMinutes())
+        let seconds = padData(date.getSeconds())
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+      }
+    },
+    mounted() {
+      this.timer = setInterval(() => {
+        this.date = new Date()
+      }, 1000)
+    },
+    beforeDestroy() {
+      this.timer && clearInterval(this.timer)
+    }
+  }
+  new Vue({
+    el: '#app',
+    components: {
+      App
+    },
+    template: `
         <App />
       `
-    })
-  </script>
+  })
+</script>
 </body>
 </html>

@@ -15,7 +15,15 @@
   <script src="../node_modules/vue/dist/vue.js"></script>
   <script>
     // v-model 双向数据绑定的体现 只会体现在UI控件中，只能应用在有value属性的元素 语法糖：它是 v-bind:value和v-on:input的体现
-    
+    // 在使用中文输入发的时候，如果需要拼音及时更新那么就需要使用@input来替换v-model
+    // 当单项按钮单独使用时，不需要v-model，使用:checked即可，
+    //  但是如果是组合使用需要实现互斥的效果，就需要v-model和value结合使用
+    /*
+    修饰符：
+      .lazy   会转变为在change事件中同步，不会实时改变，可能是在失去焦点或回车时才更新
+      .number 可以将输入类型转为Number类型
+      .trim   可以自动过滤输入的首尾空格
+    */
     new Vue({
       el: '#app',
       data() {

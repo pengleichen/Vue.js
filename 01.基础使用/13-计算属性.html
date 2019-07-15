@@ -26,11 +26,11 @@
     ul > li:hover {
       background-color: rosybrown;
     }
-    
+
     ul > li.active {
       background-color: aquamarine;
     }
-      
+
   </style>
 </head>
 <body>
@@ -43,8 +43,29 @@
       </li>
     </ul>
   </div>
+  <div id="app1"></div>
+  <div id="app2">
+    {{reversedText}}
+  </div>
   <script src="../node_modules/vue/dist/vue.js"></script>
   <script>
+    /*
+    计算属性：完成各种复杂的逻辑，包括运算、函数调用等，只要最终返回一个结果即可。
+      1. 每一个计算属性都包含一个getter和一个setter，在绝大多数情况下，我们只会用到默认的getter
+        方法来读取一个计算属性，在业务中很少用到setter方法
+      2. 计算属性除了一般简单的文本插值外，还经常用于动态地设置元素的样式名称class和内联样式style
+      3. 计算属性也会经常用来动态的传递props
+    技巧：
+      1. 计算属性可以依赖其他计算属性
+      2. 计算属性不仅可以依赖当前Vue实例的数据，还可以依赖其他实例的数据
+    问题：
+      1. 使用methods同样可以实现计算属性的效果，为什么还需要计算属性呢？
+        答：原因就在于计算属性是基于它的依赖缓存的。一个计算属性所依赖的数据发生变化时，它才会重新取值。
+            而methods则不同，只要重新渲染，它就会被调用，因此函数也会被执行
+    问题总结：
+      1. 使用计算属性还是methods取决于你是否需要缓存，当遍历大数组和做大量计算时，应当使用计算属性，
+          除非你确定不需要得到缓存
+     */
     const users = [
       {
         "login": "mojombo",
@@ -89,6 +110,24 @@
         }
       }
     })
+
+    // 计算属性依赖多实例数据
+    const app1 = new Vue({
+      el: '#app1',
+      data: {
+        text: '123456'
+      }
+    })
+
+    const app2 = new Vue({
+      el: '#app2',
+      computed: {
+        reversedText() {
+          return app1.text.split('').reverse().join('')
+        }
+      }
+    })
+
   </script>
 </body>
 </html>

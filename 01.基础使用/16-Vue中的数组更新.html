@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue中数组的更新</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<script>
+  /*
+  Vue的核心是数据与视图的双向绑定。
+  Vue中包含了一组观察数组变异的方法，使用它们改变数组会触发视图更新：
+    push/pop/shift/unshift/splice/sort/reverse
+  而使用一些方法则不会，如：filter/concat/slice等
+  注意：
+    1. 以下方式变动的数组中，Vue是不能检测到的，也不会触发视图更新
+      · 通过索引直接设置项，比如books[3] = {...}，解决方法：使用Vue的内置set方法或者books.splice方法
+      · 修改数组长度，比如books.length = 1，解决方法：使用books.splice方法
+
+   */
+  new Vue({
+    el: '#app',
+    data: {
+      books: [
+        {
+          name: '《Vue.js实战》',
+          author: '梁灏'
+        },
+        {
+          name: '《重构》',
+          author: 'Martin Fowler'
+        },
+        {
+          name: '《代码整洁之道》',
+          author: 'Bob大叔'
+        }
+      ]
+    },
+    computed: {
+      filterBooks() {
+        return this.books.filter(book => /[a-z]/i.test(book.author))
+      }
+    },
+    template: `
+      <div>
+        <ul>
+          <template v-for="book in books">
+            <li>书名：{{book.name}}</li>
+            <li>作者：{{book.author}}</li>
+          </template>
+        </ul>
+        <hr>
+        <ul>
+          <template v-for="book in filterBooks">
+            <li>书名：{{book.name}}</li>
+            <li>作者：{{book.author}}</li>
+          </template>
+        </ul>
+      </div>
+    `
+  })
+</script>
+
+</body>
+</html>
