@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$nextTick</title>
+</head>
+<body>
+<div id="app">
+  <div id="div" v-if="showDiv">这是一段文本</div>
+  <button @click="getText">获取div内容</button>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      showDiv: false
+    },
+    methods: {
+      getText() {
+        this.showDiv = true
+
+        // 抛出异常？？？
+        //let dom = document.querySelector('#div')
+        //console.log(dom.innerHTML)
+
+        this.$nextTick(() => {
+          let div = document.querySelector('#div')
+          console.log(div.innerHTML)
+        })
+
+      }
+    }
+  })
+  /*
+  这里涉及到Vue中的一个重要概念：异步更新队列
+  Vue在观察到数据变化时，并不会立即更新DOM，而是开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。
+  在缓冲时会去除重复数据，从而避免不必要的技术和DOM操作。然后在下一个事件循环tick中，Vue刷新队列并执行
+  （已去重的）工作。所有如果你用一个for循环来动态改变数据100次，其实它只会应用最后一次改变，
+   如果没有这种机制，DOM就要重绘100次，这固然是一个很大的开销。
+   Vue会根据当前浏览器环境优先使用原生的Promise.then和MutationObserver，如果都不支持，就会采用setTime
+   而$nextTick就是用来知道什么时候DOM更新完成的
+   */
+</script>
+</body>
+</html>

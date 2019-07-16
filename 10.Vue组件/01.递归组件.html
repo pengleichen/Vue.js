@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>递归组件</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  Vue.component('ChildComponent', {
+    name: 'child-component',
+    props: {
+      count: {
+        type: Number,
+        default: 1
+      }
+    },
+    template: `
+      <div class="child">
+        <child-component
+          :count="count + 1"
+          v-if="count < 5"></child-component>
+      </div>
+    `,
+    data() {
+      return {}
+    },
+    methods: {}
+  })
+  let App = {
+    template: `
+      <child-component :count="1"></child-component>
+    `
+  }
+
+  new Vue({
+    el: '#app',
+    components: {App},
+    template: `<App/>`
+  })
+</script>
+</body>
+</html>

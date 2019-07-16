@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>动态组件</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  let App = {
+    template: `
+      <div>
+        <component :is="currentView"></component>
+        <button type="button" @click="handleChangeView('A')">切换到A</button>
+        <button type="button" @click="handleChangeView('B')">切换到B</button>
+        <button type="button" @click="handleChangeView('C')">切换到C</button>
+      </div>
+    `,
+    components: {
+      comA: {
+        template: `<div>组件A</div>`
+      },
+      comB: {
+        template: `<div>组件B</div>`
+      },
+      comC: {
+        template: `<div>组件C</div>`
+      }
+    },
+    data() {
+      return {
+        currentView: 'comA'
+      }
+    },
+    methods: {
+      handleChangeView(component) {
+        this.currentView = `com${component}`
+      }
+    }
+
+  }
+  new Vue({
+    el: '#app',
+    components: {App},
+    template: `<App/>`
+  })
+</script>
+</body>
+</html>

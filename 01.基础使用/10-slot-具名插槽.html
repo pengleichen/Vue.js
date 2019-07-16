@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>10-具名插槽</title>
+</head>
+<body>
+<div id="app">
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  /*
+  props传递数据、events触发事件和slot内容分发就构成了Vue组件的三个API来源，再复杂的组件也是由这三个部分组成的。
+  slot分发的内容，作用域是在父组件上
+   */
+  Vue.component('MyLi', {
+    template: `
+        <li>
+          预留的第一个坑
+          <slot name="one"></slot>
+          预留的第二个坑
+          <slot name="two"></slot>
+        </li>
+      `
+  })
+  Vue.component('my-list', {
+    props: {
+      books: {
+        type: Array,
+        default: []
+      }
+    },
+    template: `
+      <ul>
+        <slot name="book" v-for="book in books" :book-name="book.name"></slot>
+      </ul>
+    `
+  })
+  let App = {
+    template: `
+        <div>
+          <ul>
+            <my-li>
+              <h2 slot="one">我是第一个坑</h2>
+              <h3 slot="two">我是第二个坑</h3>
+            </my-li>
+          </ul>
+          <hr>
+          <my-list :books="books">
+            <template v-slot:book="props">
+              <li>{{ props.bookName }}</li>
+            </template>
+          </my-list>
+        </div>
+      `,
+    data() {
+      return {
+        books: [
+          {name: '《Vue.js实战》'},
+          {name: '《JavaScript语言精粹》'},
+          {name: '《JavaScript高级语言设计》'}
+        ]
+      }
+    }
+  }
+  new Vue({
+    el: '#app',
+    components: {
+      App
+    },
+    template: `<App />`
+  })
+</script>
+</body>
+</html>

@@ -19,7 +19,7 @@
      */
     Vue.component('C', {
       template: `
-        <div style="background-color: rosybrown">
+        <div style="padding: 20px;background-color: rosybrown">
           <p>我是C组件</p>
           <button @click="cClickHandler">{{$attrs.message}}</button>
         </div>
@@ -33,7 +33,7 @@
     })
     Vue.component('B', {
       template: `
-        <div style="background-color: chartreuse">
+        <div style="padding: 20px;background-color: chartreuse">
           <p>我是B组件{{$attrs.message}}</p>
           <C v-bind="$attrs" v-on="$listeners" />
         </div>
@@ -41,7 +41,7 @@
     })
     Vue.component('A', {
       template: `
-        <div style="background-color: hotpink">
+        <div style="padding: 20px;background-color: hotpink">
           <p>我是A组件{{$attrs.message}}</p>
           <B v-bind="$attrs" v-on="$listeners" />
         </div>
@@ -55,7 +55,7 @@
         }
       },
       template: `
-        <div style="background-color: yellow">
+        <div style="padding: 20px;background-color: yellow">
           <p>我是App组件{{cHello}}</p>
           <A :message="cHello" @getMessageFromC="getCData" />
         </div>

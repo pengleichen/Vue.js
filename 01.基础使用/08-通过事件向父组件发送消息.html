@@ -7,58 +7,140 @@
   <title>08-通过事件向父组件发送消息</title>
 </head>
 <body>
-    <div id="app"></div>
-    <script src="../node_modules/vue/dist/vue.js"></script>
-    <script>
-      // ------- 子组件 -> 父组件 ----------
-      // 1. 在父组件绑定自定义事件
-      // 2. 在子组件中触发原生的事件，在函数中使用$emit去触发自定义事件执行
-      Vue.component('Child', {
-        template: `
+<div id="app"></div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  // ------- 子组件 -> 父组件 ----------
+  // 1. 在父组件绑定自定义事件
+  // 2. 在子组件中触发原生的事件，在函数中使用$emit去触发自定义事件执行
+  // 3. 可以在自定义组件上使用v-model指令，实现一个具有双向数据绑定的v-model组件要满足以下两个要求：
+  //      · 接收一个value属性
+  //      · 在有新的value时触发input事件
+  Vue.component('Child', {
+    template: `
           <div>
             <p>我是一个Child组件</p>
             <input v-model="childData" @input="valueChange" >
           </div>
         `,
-        props: ['childData'],
-        methods: {
-          valueChange() {
-            this.$emit('childEvent', this.childData)
-          }
-        }
-      })
-      ;Vue.component('Parent', {
-        data() {
-          return {
-            msg: '我是Parent组件消息'
-          }
-        },
-        template: `
+    props: ['childData'],
+    methods: {
+      valueChange() {
+        this.$emit('childEvent', this.childData)
+      }
+    }
+  })
+  Vue.component('Parent', {
+    data() {
+      return {
+        msg: '我是Parent组件消息'
+      }
+    },
+    template: `
           <div>
             <p>我是一个Parent组件 {{msg}}</p>
             <Child :childData="msg" @childEvent="childEvent" />
           </div>
         `,
-        methods: {
-          childEvent(value) {
-            console.log(value)
-          }
-        },
-      })
-      ;let App = {
-        template: `
+    methods: {
+      childEvent(value) {
+        console.log(value)
+      }
+    }
+  })
+
+  Vue.component('ComputerTotal', {
+    template: `
+          <div>
+            <p>总数：{{ total }}</p>
+            <my-component @increase="handleGetTotal"
+              @reduce="handleGetTotal"></my-component>
+          </div>
+        `,
+    data() {
+      return {
+        total: 0
+      }
+    },
+    methods: {
+      handleGetTotal(total) {
+        this.total = total
+      }
+    }
+  })
+  Vue.component('my-component', {
+    template: `
+          <div>
+            <button type="button" @click="add">+1</button>
+            <button type="button" @click="minus">-1</button>
+          </div>
+        `,
+    data() {
+      return {
+        counter: 0
+      }
+    },
+    methods: {
+      add() {
+        this.counter++
+        this.$emit('increase', this.counter)
+      },
+      minus() {
+        this.counter--
+        this.$emit('reduce', this.counter)
+      }
+    }
+  })
+  Vue.component('computer-total2', {
+    template: `
+      <div>
+        <p>总数：{{ total }}</p>
+        <my-component2 v-model="total"></my-component2>
+      </div>
+    `,
+    data() {
+      return {
+        total: 0
+      }
+    }
+  })
+
+  Vue.component('my-component2', {
+    template: `
+      <div>
+        <button type="button" @click="handleClick">+1</button>
+      </div>
+    `,
+    data() {
+      return {
+        counter: 0
+      }
+    },
+    methods: {
+      handleClick() {
+        this.counter++
+        this.$emit('input', this.counter)
+      }
+    }
+  })
+  let App = {
+    template: `
           <div>
             <Parent />
+            <hr>
+            <ComputerTotal />
+            <hr>
+            <computer-total2 />
           </div>
         `
-      }
-      new Vue({
-        el: '#app',
-        components: {
-          App,
-        },
-        template: `<App />`,
-      })
-    </script>
+  }
+  new Vue({
+    el: '#app',
+    components: {
+      App
+    },
+    template: `<App />`
+  })
+</script>
 </body>
 </html>
