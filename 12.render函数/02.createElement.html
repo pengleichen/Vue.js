@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>createElement用法</title>
+</head>
+<body>
+<script>
+  /*
+  createElement有三个参数：
+  createElement(
+    'div', // {String(HTML标签) | Object(组件选项) | Function(函数)}
+    {
+      // 对应属性的数据对象，可选
+      class,
+      style,
+      attrs, // 正常HTML特性
+      props, // 组件props
+      domProps, // DOM属性
+      on,
+      nativeOn,
+      directives,
+      scopeSlots,
+      slot,
+      key,
+      ref
+    },
+    'bar' // {String | Array} 子节点，可选
+  )
+
+
+  总结：从下面的实例中，可以看出template的写法明显比render写法要可读而且简洁，
+        所以要在合适的场景使用Render函数，否则只会增加负担
+   */
+
+
+</script>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<div id="app">
+  <el></el>
+</div>
+<script>
+  Vue.component('el', {
+    template: `
+      <div id="element" :class="{show: show}"
+        @click="handleClick">
+        文本内容
+      </div>
+    `,
+    data() {
+      return {
+        show: true
+      }
+    },
+    methods: {
+      handleClick() {
+        console.log('clicked...')
+      }
+    }
+  })
+  new Vue().$mount('#app')
+</script>
+
+<div id="app-rend">
+  <el-rend></el-rend>
+</div>
+<script>
+  Vue.component('el-rend', {
+    render(createElement) {
+      /* <div id="element1" :class="{show: show}" @click="handleClick">
+            文本内容
+         </div>
+      */
+      return createElement(
+        'div',
+        {
+          attrs: {
+            id: 'element1'
+          },
+          class: {
+            show: this.show
+          },
+          on: {
+            click: this.handleClick
+          }
+        },
+        '文本内容'
+      )
+    },
+    data() {
+      return {
+        show: true
+      }
+    },
+    methods: {
+      handleClick() {
+        console.log('clicked ...')
+      }
+    }
+  })
+  new Vue().$mount('#app-rend')
+</script>
+</body>
+</html>

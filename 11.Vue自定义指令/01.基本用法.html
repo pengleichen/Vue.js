@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>自定义指令基本用法</title>
+</head>
+<body>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  /*
+  自定义指令：
+    使用场景：如果我们需要对DOM进行一些底层的操作，我们就需要用到自定义指令
+    如何定义：
+      1. 全局注册
+        Vue.directive(<d_name>, {})
+      2. 局部注册
+        new Vue({
+          ...,
+          directives: {
+            <d_name>: {}
+          },
+          ...,
+        })
+     相关配置：
+      1. bind: 只调用一次，指令第一次绑定到元素时调用，可用于初始化动作
+      2. inserted: 被绑定元素插入父节点时调用（父节点存在即可调用，不必存于DOM中）
+      3. update: 被绑定元素所在的模板更新时调用，而不论绑定值是否变化。
+                  通过比较更新前后的绑定值，可以忽略不必要的模板更新
+      4. componentUpdated: 被绑定元素所在模板完成一次更新周期时调用
+      5. unbind：只调用一次，指令与元素解绑时调用
+      以上钩子函数参数列表：
+        1. el 指令所绑定的元素，可以用来直接操作DOM
+        2. binding 一个对象，包含以下属性：
+              name  指令名，不包含v-前缀
+              value 指令的绑定值
+              oldValue  指令绑定的前一个值，仅在update和componentUpdated钩子中使用，无论绑定值是否改变
+              expression  绑定值的字符串形式
+              arg 传给指令的参数
+              modifiers 一个包含修饰符的对象
+         3. vnode Vue编译生成的虚拟节点
+         4. oldVnode 上一个虚拟节点仅在update和componentUpdated钩子中使用
+   */
+</script>
+<div id="app">
+  <input type="text" v-focus>
+  <hr>
+  <span style="color: #f00;">&lt;div v-test:msg.a.b="message"&gt;&lt;/div&gt;</span>
+  <div v-test:msg.a.b="message"></div>
+</div>
+<script>
+  Vue.directive('focus', {
+    inserted(el) {
+      el.focus()
+    }
+  })
+  Vue.directive('test', {
+    bind(el, binding, vnode) {
+      let keys = Object.keys(vnode)
+      el.innerHTML = `
+        name: ${binding.name}<br>
+        value: ${binding.value}<br>
+        expression: ${binding.expression}<br>
+        argument: ${binding.arg}<br>
+        modifiers: ${JSON.stringify(binding.modifiers)}<br>
+        vnode keys: ${keys.join(',')}
+      `
+    }
+  })
+  new Vue({
+    el: '#app',
+    data: {
+      message: 'Some text'
+    }
+  })
+</script>
+</body>
+</html>

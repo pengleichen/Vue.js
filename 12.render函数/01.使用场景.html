@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Render函数的使用场景</title>
+</head>
+<body>
+<div id="app1">
+  <anchor :level="2" title="特性">特性</anchor>
+  <script type="text/x-template" id="anchor">
+    <div>
+      <h1 v-if="level === 1">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h1>
+      <h2 v-if="level === 2">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h2>
+      <h3 v-if="level === 3">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h3>
+      <h4 v-if="level === 4">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h4>
+      <h5 v-if="level === 5">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h5>
+      <h6 v-if="level === 6">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h6>
+      <h1 v-if="level === 1">
+        <a :href="'#' + title">
+          <slot></slot>
+        </a>
+      </h1>
+    </div>
+  </script>
+</div>
+<div id="app2">
+  <anchor-render :level="2" title="特性">特性</anchor-render>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  Vue.component('anchor', {
+    template: '#anchor',
+    props: {
+      level: {
+        type: Number,
+        required: true
+      },
+      title: {
+        type: String,
+        default: ''
+      }
+    }
+  })
+  let app1 = new Vue({
+    el: '#app1'
+  })
+
+  Vue.component('anchor-render', {
+    props: {
+      level: {
+        type: Number,
+        required: true
+      },
+      title: {
+        type: String,
+        default: ''
+      }
+    },
+    render(createElement) {
+      return createElement(
+        'h' + this.level,
+        [
+          createElement(
+            'a',
+            {
+              domProps: {
+                href: '#' + this.title
+              }
+            },
+            this.$slots.default
+          )
+        ]
+      )
+    }
+  })
+  let app2 = new Vue({
+    el: '#app2'
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+.button-group {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  display: inline-block;
+  flex: 1;
+  margin: 0 5px;
+  padding: 6px 4px;
+  font-size: 14px;
+  border: 1px dotted;
+  border-radius: 8px;
+  color: #777;
+  background-color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+
+button[disabled] {
+  cursor: not-allowed;
+  color: #fff !important;
+  background-color: #ccc !important;
+}
+
+button[type="primary"] {
+  color: #fff;
+  background-color: #3399ff;
+}
