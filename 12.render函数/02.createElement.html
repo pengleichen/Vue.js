@@ -31,6 +31,10 @@
 
   总结：从下面的实例中，可以看出template的写法明显比render写法要可读而且简洁，
         所以要在合适的场景使用Render函数，否则只会增加负担
+        也可以使用JSX语法，需在webpack中配置插件babel-plugin-transform-vue-jsx
+        JSX仍然是JavaScript而不是DOM，如果团队不是JSX强驱动的，建议还是以模板template的方式为主，
+        特殊场景（比如锚点标题）使用Render的createElement辅助完成
+
    */
 
 
