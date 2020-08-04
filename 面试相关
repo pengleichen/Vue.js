@@ -1,0 +1,23 @@
+## 谈一谈你对MVVM原理的理解
+## 请说一下响应式数据的原理？
+  理解：
+    1. 核心点：Object。defineProperty
+    2. 默认Vue在初始化数据是，会给data中的属性使用Object.defineProperty，收集依赖（watcher)
+  原理：
+      initData -> new Observer -> this.walk(value) -> defineReactive -> Object.defineProperty
+## Vue中是如何检测数组变化？
+   理解： 
+    1. 使用函数劫持的方式，重写了数组的方法
+    2. Vue将data中的数组，进行了原型链重写，进行对数组中的每一项进行监控（不是对象不进行观测）
+## 为何Vue采用异步渲染？
+    理解：因为如何不采用异步更新，那么每次更新数据都会对当前组件进行重新渲染，所以为了性能考虑。Vue会在本轮数据更新后续，再去异步更新视图。
+    原理：dep.notify()通知存储的依赖更新 -> subs[i].update() -> queueWatcher 将watch放入队列-> nextTick(flushSchedulerQueue) 在下一个Tick中刷新watcher队列
+## nextTick实现原理
+    理解：nextTick方法主要是使用了宏任务和微任务
+## Vue中的computed的特点
+## Vue中watch的deep:true如何实现的
+## Vue组件的生命周期
+    
+    
+    
+    
